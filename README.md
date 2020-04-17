@@ -49,13 +49,6 @@ Simple installation(Optional)
 helm install openfaas --namespace openfaas openfaas/openfaas
 ```
 Sugested installation
-```
-helm repo update \
- && helm upgrade openfaas --install openfaas/openfaas \
-    --namespace openfaas  \
-    --set functionNamespace=openfaas \
-    --set generateBasicAuth=false 
-```    
 #test
 helm repo update \
  && helm upgrade openfaas --install openfaas/openfaas \
