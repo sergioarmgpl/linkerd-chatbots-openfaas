@@ -1,6 +1,6 @@
 # Service Mesh and Serverless Chatbots with Linkerd, K8s and OpenFaaS - Lab
 
-# Instalar Kubernetes
+## Kubernetes Cluster Creation
 1. Create a Digital Ocean k8s cluster
 2. Instalar Kubectl
 ```
@@ -8,28 +8,25 @@ curl -LO https://storage.googleapis.com/kubernetes-release/release/`curl -s http
 chmod +x ./kubectl
 sudo mv ./kubectl /usr/local/bin/kubectl
 ```
-Instalar Helm
+## Helm Installation and configuration
+Download and install helm
+```
 curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3
-
 chmod 700 get_helm.sh
-
 ./get_helm.sh
-
+```
+### Adding some charts to helm
+```
 helm repo add stable https://kubernetes-charts.storage.googleapis.com/
-
-
-
-
-
-
-
-https://docs.openfaas.com/deployment/kubernetes/
-
-
-helm repo add openfaas https://openfaas.github.io/faas-netes/
-
+```
+### Adding OpenFaaS Helm chart
+Source:
+[https://docs.openfaas.com/deployment/kubernetes/](https://docs.openfaas.com/deployment/kubernetes/)
+Chart
 https://github.com/openfaas/faas-netes/blob/master/HELM.md
+Detail
 https://github.com/openfaas/faas-netes/blob/master/chart/openfaas/README.md
+
 
 kubectl create ns openfaas 
 helm install nginx-ingress --namespace openfaas stable/nginx-ingress
