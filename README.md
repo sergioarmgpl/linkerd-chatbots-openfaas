@@ -21,11 +21,11 @@ helm repo add stable https://kubernetes-charts.storage.googleapis.com/
 ```
 ### Adding OpenFaaS Helm chart
 Source:
-[https://docs.openfaas.com/deployment/kubernetes/](https://docs.openfaas.com/deployment/kubernetes/)
+- [https://docs.openfaas.com/deployment/kubernetes/](https://docs.openfaas.com/deployment/kubernetes/)
 Chart
-https://github.com/openfaas/faas-netes/blob/master/HELM.md
+- https://github.com/openfaas/faas-netes/blob/master/HELM.md
 Detail
-https://github.com/openfaas/faas-netes/blob/master/chart/openfaas/README.md
+- https://github.com/openfaas/faas-netes/blob/master/chart/openfaas/README.md
 
 
 kubectl create ns openfaas 
