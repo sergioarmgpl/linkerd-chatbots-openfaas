@@ -1,13 +1,13 @@
 # Service Mesh and Serverless Chatbots with Linkerd, K8s and OpenFaaS - Lab
 
 # Instalar Kubernetes
-1. Crear Cluster en Digital Ocean
-Instalar Kubectl
+1. Create a Digital Ocean k8s cluster
+2. Instalar Kubectl
+```
 curl -LO https://storage.googleapis.com/kubernetes-release/release/`curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt`/bin/linux/amd64/kubectl
-
 chmod +x ./kubectl
 sudo mv ./kubectl /usr/local/bin/kubectl
-
+```
 Instalar Helm
 curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3
 
