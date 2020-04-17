@@ -8,6 +8,8 @@ curl -LO https://storage.googleapis.com/kubernetes-release/release/`curl -s http
 chmod +x ./kubectl
 sudo mv ./kubectl /usr/local/bin/kubectl
 ```
+
+#Installing OpenFaaS
 ## Helm Installation and configuration
 Download and install helm
 ```
@@ -15,41 +17,45 @@ curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/master/scr
 chmod 700 get_helm.sh
 ./get_helm.sh
 ```
-### Adding some charts to helm
+Adding some useful charts to helm
 ```
 helm repo add stable https://kubernetes-charts.storage.googleapis.com/
 ```
-### Adding OpenFaaS Helm chart
-Source:
-- [https://docs.openfaas.com/deployment/kubernetes/](https://docs.openfaas.com/deployment/kubernetes/)
-Chart
-- https://github.com/openfaas/faas-netes/blob/master/HELM.md
-Detail
-- https://github.com/openfaas/faas-netes/blob/master/chart/openfaas/README.md
-
-
-kubectl create ns openfaas 
-helm install nginx-ingress --namespace openfaas stable/nginx-ingress
-
-kubectl -n openfaas create secret generic basic-auth --from-literal=basic-auth-password=kubeconeu123 --from-literal=basic-auth-user=admin
-
+Adding OpenFaaS Helm chart
+Adding OpenFaaS Hel
+```
 helm repo add openfaas https://openfaas.github.io/faas-netes/
-
-#Default
-#helm install openfaas --namespace openfaas openfaas/openfaas
- 
- 
-basic-auth:
-->basic-auth-password: Chatbots123-
-->basic-auth-user: admin
-
-
+```
+Some useful OpenFaaS documentation:
+- Source: https://docs.openfaas.com/deployment/kubernetes/
+Chart
+- Readme: https://github.com/openfaas/faas-netes/blob/master/chart/openfaas/README.md
+- Helm readme: https://github.com/openfaas/faas-netes/blob/master/HELM.md
+- Detail: https://github.com/openfaas/faas-netes/blob/master/chart/openfaas/README.md
+Creating OpenFaaS Namespace:
+```
+kubectl create ns openfaas 
+```
+Installing nginx-ingress to give public access to openfaas
+```
+helm install nginx-ingress --namespace openfaas stable/nginx-ingress
+```
+Creating default user and password login
+```
+kubectl -n openfaas create secret generic basic-auth --from-literal=basic-auth-password=kubeconeu123 --from-literal=basic-auth-user=admin
+```
+Simple installation(Optional)
+```
+helm install openfaas --namespace openfaas openfaas/openfaas
+```
+Sugested installation
+```
 helm repo update \
  && helm upgrade openfaas --install openfaas/openfaas \
     --namespace openfaas  \
     --set functionNamespace=openfaas \
     --set generateBasicAuth=false 
-    
+```    
 #test
 helm repo update \
  && helm upgrade openfaas --install openfaas/openfaas \
