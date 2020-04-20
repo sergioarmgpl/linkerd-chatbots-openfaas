@@ -9,7 +9,7 @@ chmod +x ./kubectl
 sudo mv ./kubectl /usr/local/bin/kubectl
 ```
 
-#Installing OpenFaaS
+# Installing OpenFaaS
 ## Helm Installation and configuration
 Download and install helm
 ```
@@ -48,8 +48,8 @@ Simple installation(Optional)
 ```
 helm install openfaas --namespace openfaas openfaas/openfaas
 ```
-#Suggested installation
-##Create values file
+# Suggested installation
+## Create values file
 ```
 async: "false"
 basic_auth: "false"
@@ -65,7 +65,7 @@ queueWorker:
   replicas: "2"    
 functionNamespace: "openfaas"
 ```
-##test just dry-run(optional)
+## test just dry-run(optional)
 ```
 helm repo update \
  && helm upgrade openfaas --install openfaas/openfaas \
@@ -73,18 +73,18 @@ helm repo update \
     -f values.yaml \
     --dry-run    
 ```
-##OpenFaaS installation with helm3
+## OpenFaaS installation with helm3
 ```
 helm repo update \
  && helm upgrade openfaas --install openfaas/openfaas \
     --namespace openfaas  \
     -f values.yaml
 ```
-##Check deployment
+## Check deployment
 ```
 kubectl -n openfaas get deployments -l "release=openfaas, app=openfaas"
 ```
-##Create ingress rule with nginx-ingress to expose OpenFaaS
+## Create ingress rule with nginx-ingress to expose OpenFaaS
 ```
 kubectl create -f public-openfaas.yaml
 apiVersion: extensions/v1beta1
@@ -110,21 +110,21 @@ spec:
         secretName: openfaas-cert
 ```
 
-##Installing faas cli
+## Installing faas cli
 ```
 curl -sSL https://cli.openfaas.com | sudo sh
 ```
-##login to OpenFaaS via CLI
+## login to OpenFaaS via CLI
 ```
 faas-cli login --username admin --password kubeconeu123 --gateway openfaas.curzona.net 
 ```
-##OpenFaaS Logout
+## OpenFaaS Logout
 ```
 faas-cli logout
 ```
 Note: use the option --tls-no-verify for self signed certifies
 
-#Linkerd installation
+# Linkerd installation
 Steps
 ```
 curl -sL https://run.linkerd.io/install | sh
@@ -150,7 +150,7 @@ kubectl -n linkerd get deploy
 ```
 linkerd dashboard
 ```
-##Secure the Linkerd dashboard
+## Secure the Linkerd dashboard
 ```
 htpasswd -c auth admin.....    kubeconeu123
 ```
@@ -192,8 +192,6 @@ faas new --lang python3-flask chatbot
 4. Next, give your bot access to the Events API.
 5. Finally, add your bot to your workspace.
 
-
-
 ## Se inyecta linkerd
 ```
 kubectl -n openfaas get deploy gateway -o yaml | linkerd inject --skip-outbound-ports=4222 - | kubectl apply -f -
@@ -228,7 +226,7 @@ curl http://openfaas.curzona.net/function/echo-green.openfaas
 curl http://openfaas.curzona.net/function/echo-blue.openfaas
 curl http://openfaas.curzona.net/function/echo.openfaas
 ```
-##Inject the green and blue chatbots
+## Inject the green and blue chatbots
 ```
 kubectl get -n openfaas deployment chatbot-root -o yaml \
   | linkerd inject - \
@@ -244,7 +242,7 @@ kubectl get -n openfaas deployment chatbot-blue -o yaml \
   | linkerd inject - \
   | kubectl apply -f -
 ```
-##Apply the traffic splitting rule
+## Apply the traffic splitting rule
 ```
 kubectl apply -f -
 apiVersion: split.smi-spec.io/v1alpha1
@@ -262,11 +260,11 @@ spec:
   - service: chatbot-green
     weight: 500m
 ```
-##Sending traffic with a loop
+## Sending traffic with a loop
 ```
 for i in {0..10}; do  curl http://openfaas.curzona.net/function/echo.openfaas; done    
 ```
-##Removing the traffic splitting
+## Removing the traffic splitting
 ```
 kubectl delete -f -
 apiVersion: split.smi-spec.io/v1alpha1
@@ -284,5 +282,5 @@ spec:
   - service: echo-green
     weight: 900m
 ```
-#resourses
+# Resourses
 [install linkerd2 with observability in OpenFaaS] (https://github.com/openfaas-incubator/openfaas-linkerd2)
