@@ -150,9 +150,9 @@ kubectl -n linkerd get deploy
 ```
 linkerd dashboard
 ```
-## Secure the Linkerd dashboard
+## Securing the Linkerd dashboard
 ```
-htpasswd -c auth admin.....    kubeconeu123
+htpasswd -c auth admin    [Enter password for admin, stored in the auth file]
 ```
 ```
 kubectl -n linkerd create secret generic basic-auth --from-file auth 
