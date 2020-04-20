@@ -48,21 +48,9 @@ Simple installation(Optional)
 ```
 helm install openfaas --namespace openfaas openfaas/openfaas
 ```
-Sugested installation
-#test
-helm repo update \
- && helm upgrade openfaas --install openfaas/openfaas \
-    --namespace openfaas  \
-    -f values.yaml \
-    --dry-run
-
-    
-helm repo update \
- && helm upgrade openfaas --install openfaas/openfaas \
-    --namespace openfaas  \
-    -f values.yaml
-    
-== create values.yaml with ==
+#Suggested installation
+##Create values file
+```
 async: "false"
 basic_auth: "false"
 faasIdler: 
@@ -76,19 +64,28 @@ gateway:
 queueWorker: 
   replicas: "2"    
 functionNamespace: "openfaas"
-
-nodeSelector:
-  kops.k8s.io/instancegroup: nodes-spot-services
-    
-UNINSTALL
-
-
-
-
+```
+##test just dry-run(optional)
+```
+helm repo update \
+ && helm upgrade openfaas --install openfaas/openfaas \
+    --namespace openfaas  \
+    -f values.yaml \
+    --dry-run    
+```
+##OpenFaaS installation with helm3
+```
+helm repo update \
+ && helm upgrade openfaas --install openfaas/openfaas \
+    --namespace openfaas  \
+    -f values.yaml
+```
+##Check deployment
+```
 kubectl -n openfaas get deployments -l "release=openfaas, app=openfaas"
-
-create certificate
-
+```
+##Create ingress rule with nginx-ingress to expose OpenFaaS
+```
 kubectl create -f public-openfaas.yaml
 apiVersion: extensions/v1beta1
 kind: Ingress
@@ -106,35 +103,60 @@ spec:
               serviceName: gateway
               servicePort: 8080
             path: /
-  # This section is only required if TLS is to be enabled for the Ingress
+  # Optional section if you are using TLS
   tls:
       - hosts:
-          - www.example.com
-        secretName: example-tls
+          - openfaas.curzona.net
+        secretName: openfaas-cert
+```
 
-
-install faas cli
+##Installing faas cli
+```
 curl -sSL https://cli.openfaas.com | sudo sh
-        
+```
+##login to OpenFaaS via CLI
+```
 faas-cli login --username admin --password kubeconeu123 --gateway openfaas.curzona.net 
-#[--tls-no-verify] [flags]
+```
+##OpenFaaS Logout
+```
 faas-cli logout
+```
+Note: use the option --tls-no-verify for self signed certifies
 
-
-install linkerd2 to observability on OpenFaaS
-https://github.com/openfaas-incubator/openfaas-linkerd2
-
-
-#curl -sL https://run.linkerd.io/install | sh
-#export PATH=$PATH:$HOME/.linkerd2/bin
-#linkerd version
-#linkerd check --pre
-#linkerd install | kubectl apply -f -
-#linkerd check
-#kubectl -n linkerd get deploy
-#linkerd dashboard
+#Linkerd installation
+Steps
+```
+curl -sL https://run.linkerd.io/install | sh
+```
+```
+export PATH=$PATH:$HOME/.linkerd2/bin
+```
+```
+linkerd version
+```
+```
+linkerd check --pre
+```
+```
+linkerd install | kubectl apply -f -
+```
+```
+linkerd check
+```
+```
+kubectl -n linkerd get deploy
+```
+```
+linkerd dashboard
+```
+##Secure the Linkerd dashboard
+```
 htpasswd -c auth admin.....    kubeconeu123
+```
+```
 kubectl -n linkerd create secret generic basic-auth --from-file auth 
+```
 
   annotations:
     # type of authentiation 
@@ -179,14 +201,14 @@ kubectl -n openfaas get deploy/basic-auth-plugin -o yaml | linkerd inject - | ku
 kubectl -n openfaas get deploy/faas-idler -o yaml | linkerd inject - | kubectl apply -f -
 kubectl -n openfaas get deploy/queue-worker -o yaml | linkerd inject  --skip-outbound-ports=4222 - | kubectl apply -f -
 ```
-
+```
 kubectl annotate namespace openfaas linkerd.io/inject=enabled
-
-Insect ingress controller
+```
+Inject ingress controller
 ```
 kubectl -n openfaas get deploy/nginx-ingress-controller -o yaml | linkerd inject - | kubectl apply -f -
 ```
-En annotations
+Add the following in the annotations block
 ```
 kubectl -n openfaas edit deployment nginx-ingress-controller
 nginx.ingress.kubernetes.io/configuration-snippet: |
@@ -194,23 +216,19 @@ nginx.ingress.kubernetes.io/configuration-snippet: |
   proxy_hide_header l5d-remote-ip;
   proxy_hide_header l5d-server-id;
 ```
-```
-faas-cli deploy --gateway=http://openfaas.curzona.net --image functions/alpine:latest --fprocess="echo green" --name echo-green
-faas-cli deploy --gateway=http://openfaas.curzona.net --image functions/alpine:latest --fprocess="echo blue" --name echo-blue
-faas-cli deploy --gateway=http://openfaas.curzona.net --image functions/alpine:latest --fprocess="echo root" --name echo
-```
+Deploy 3 services echo chatbot-root is a dummy service
 ```
 faas-cli deploy --gateway=http://openfaas.curzona.net --image hub.cloudsociety.dev/openfaas/chatbot:latest --name chatbot-green
 faas-cli deploy --gateway=http://openfaas.curzona.net --image hub.cloudsociety.dev/openfaas/chatbot:latest --name chatbot-blue
 faas-cli deploy --gateway=http://openfaas.curzona.net --image hub.cloudsociety.dev/openfaas/chatbot:latest --name chatbot-root
 ```
-
+Test the access to the services
 ```
 curl http://openfaas.curzona.net/function/echo-green.openfaas
 curl http://openfaas.curzona.net/function/echo-blue.openfaas
 curl http://openfaas.curzona.net/function/echo.openfaas
 ```
-
+##Inject the green and blue chatbots
 ```
 kubectl get -n openfaas deployment chatbot-root -o yaml \
   | linkerd inject - \
@@ -226,6 +244,7 @@ kubectl get -n openfaas deployment chatbot-blue -o yaml \
   | linkerd inject - \
   | kubectl apply -f -
 ```
+##Apply the traffic splitting rule
 ```
 kubectl apply -f -
 apiVersion: split.smi-spec.io/v1alpha1
@@ -243,11 +262,11 @@ spec:
   - service: chatbot-green
     weight: 500m
 ```
+##Sending traffic with a loop
 ```
 for i in {0..10}; do  curl http://openfaas.curzona.net/function/echo.openfaas; done    
 ```
-https://docs.openfaas.com/architecture/stack/#conceptual-workflow
-
+##Removing the traffic splitting
 ```
 kubectl delete -f -
 apiVersion: split.smi-spec.io/v1alpha1
@@ -265,3 +284,5 @@ spec:
   - service: echo-green
     weight: 900m
 ```
+#resourses
+[install linkerd2 with observability in OpenFaaS] (https://github.com/openfaas-incubator/openfaas-linkerd2)
