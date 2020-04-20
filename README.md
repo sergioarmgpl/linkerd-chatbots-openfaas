@@ -21,8 +21,7 @@ Adding some useful charts to helm
 ```
 helm repo add stable https://kubernetes-charts.storage.googleapis.com/
 ```
-Adding OpenFaaS Helm chart
-Adding OpenFaaS Hel
+Adding OpenFaaS Helm Chart
 ```
 helm repo add openfaas https://openfaas.github.io/faas-netes/
 ```
