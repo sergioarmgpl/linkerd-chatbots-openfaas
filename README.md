@@ -132,15 +132,19 @@ Pre-check before linkerd installation, look if there is not another installation
 ```
 linkerd check --pre
 ```
+Install Linkerd
 ```
 linkerd install | kubectl apply -f -
 ```
+Check the installation
 ```
 linkerd check
 ```
+Check everything is deployed
 ```
 kubectl -n linkerd get deploy
 ```
+Accesing to the Linkerd Dashboard
 ```
 linkerd dashboard
 ```
