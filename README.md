@@ -43,11 +43,6 @@ Creating default user and password login
 ```
 kubectl -n openfaas create secret generic basic-auth --from-literal=basic-auth-password=kubeconeu123 --from-literal=basic-auth-user=admin
 ```
-# Simple installation(Optional)
-```
-helm install openfaas --namespace openfaas openfaas/openfaas -f values.yaml
-```
-# Suggested installation
 ## Create values.yaml file
 ```
 async: "false"
@@ -64,20 +59,14 @@ queueWorker:
   replicas: "2"    
 functionNamespace: "openfaas"
 ```
+# Suggested installation
+```
+helm install openfaas --namespace openfaas openfaas/openfaas -f values.yaml
+```
+
 ## test just dry-run(optional)
 ```
-helm repo update \
- && helm upgrade openfaas --install openfaas/openfaas \
-    --namespace openfaas  \
-    -f values.yaml \
-    --dry-run    
-```
-## OpenFaaS installation with helm3
-```
-helm repo update \
- && helm upgrade openfaas --install openfaas/openfaas \
-    --namespace openfaas  \
-    -f values.yaml
+helm install openfaas --namespace openfaas openfaas/openfaas -f values.yaml --dry-run    
 ```
 ## Check deployment
 ```
