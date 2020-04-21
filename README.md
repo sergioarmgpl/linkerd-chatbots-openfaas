@@ -150,6 +150,10 @@ linkerd dashboard
 ```
 ## Securing the Linkerd dashboard
 ```
+apt-get install -y apache2-utils
+```
+Create auth credentials with htpasswd
+```
 htpasswd -c auth admin    [Enter password for admin, stored in the auth file]
 ```
 ```
