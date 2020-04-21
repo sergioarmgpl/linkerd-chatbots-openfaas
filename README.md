@@ -45,7 +45,7 @@ kubectl -n openfaas create secret generic basic-auth --from-literal=basic-auth-p
 ```
 # Simple installation(Optional)
 ```
-helm install openfaas --namespace openfaas openfaas/openfaas
+helm install openfaas --namespace openfaas openfaas/openfaas -f values.yaml
 ```
 # Suggested installation
 ## Create values.yaml file
