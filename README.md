@@ -253,9 +253,9 @@ faas-cli deploy --gateway=http://openfaas.curzona.net --image hub.cloudsociety.d
 ```
 Test the access to the services
 ```
-curl http://openfaas.curzona.net/function/echo-green.openfaas
-curl http://openfaas.curzona.net/function/echo-blue.openfaas
-curl http://openfaas.curzona.net/function/echo.openfaas
+curl http://openfaas.curzona.net/function/chatbot-green.openfaas/slack/events
+curl http://openfaas.curzona.net/function/chatbot-blue.openfaas/slack/events
+curl http://openfaas.curzona.net/function/chatbot.openfaas/slack/events
 ```
 ## Inject the green and blue chatbots
 ```
