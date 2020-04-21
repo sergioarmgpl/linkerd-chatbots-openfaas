@@ -108,7 +108,7 @@ faas-cli login --username admin --password kubeconeu123 --gateway openfaas.curzo
 ```
 ## OpenFaaS Logout
 ```
-faas-cli logout
+faas-cli logout --gateway openfaas.curzona.net
 ```
 Note: use the option --tls-no-verify for self signed certifies
 
