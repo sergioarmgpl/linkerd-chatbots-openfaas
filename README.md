@@ -117,8 +117,12 @@ Steps
 ```
 curl -sL https://run.linkerd.io/install | sh
 ```
+Add the following line to ~/.profile
 ```
 export PATH=$PATH:$HOME/.linkerd2/bin
+```
+```
+. ~/.profile
 ```
 ```
 linkerd version
