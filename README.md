@@ -160,19 +160,36 @@ htpasswd -c auth admin    [Enter password for admin, stored in the auth file]
 ```
 kubectl -n linkerd create secret generic basic-auth --from-file auth 
 ```
-
+Create public-linkerd.yaml
+```
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
   annotations:
-    # type of authentiation 
+    kubernetes.io/ingress.class: nginx
     nginx.ingress.kubernetes.io/auth-type: basic
-    # secret reference that contins the credential detals
     nginx.ingress.kubernetes.io/auth-secret: basic-auth
     nginx.ingress.kubernetes.io/upstream-vhost: $service_name.$namespace.svc.cluster.local:8084
     nginx.ingress.kubernetes.io/configuration-snippet: |
       proxy_set_header Origin "";
       proxy_hide_header l5d-remote-ip;
       proxy_hide_header l5d-server-id;
-
+  name: public-linkerd
+  namespace: linkerd
+spec:
+  rules:
+    - host: linkerd.curzona.net
+      http:
+        paths:
+          - backend:
+              serviceName: linkerd-web
+              servicePort: 8084
+            path: /
+```
+Create a ingress with password protection with the next command:
+```
 kubectl -n linkerd create -f public-linkerd.yaml
+```
 
 Tutorial Bot
 https://github.com/slackapi/python-slackclient/blob/master/tutorial/03-responding-to-slack-events.md
