@@ -191,28 +191,39 @@ Create a ingress with password protection with the next command:
 kubectl -n linkerd create -f public-linkerd.yaml
 ```
 
-Tutorial Bot
-https://github.com/slackapi/python-slackclient/blob/master/tutorial/03-responding-to-slack-events.md
-https://readthedocs.org/projects/python-slackclient/downloads/pdf/latest/
+## Tutorial Bot
+- https://github.com/slackapi/python-slackclient/blob/master/tutorial/03-responding-to-slack-events.md
+- https://readthedocs.org/projects/python-slackclient/downloads/pdf/latest/
+## Essentials packages for Slack chatbots in python
+```
 apt-get install python3-dev
 apt-get install python3-pip
-
-FaaS
+```
+## Creating a serverless Slack chatbot with python with OpenFaaS
+```
 apt-get install docker.io
+```
+```
 mkdir faas
+```
+```
 cd faas
+```
+```
 faas template pull https://github.com/openfaas-incubator/python-flask-template
+```
+```
 faas new --lang python3-flask chatbot
+```
 
-
-## Crear Bot
+## Create a Slack bot with Slack API
 1. Create a Slack app(https://api.slack.com/apps/new) (if you don't already have one).
 2. Add a Bot User and configure your bot user with some basic info (display name, default username and its online presence).
 3. Once you've completed these fields, click Add Bot User.
 4. Next, give your bot access to the Events API.
 5. Finally, add your bot to your workspace.
 
-## Se inyecta linkerd
+## Inject OpenFaaS pods with linkerd
 ```
 kubectl -n openfaas get deploy gateway -o yaml | linkerd inject --skip-outbound-ports=4222 - | kubectl apply -f -
 kubectl -n openfaas get deploy/basic-auth-plugin -o yaml | linkerd inject - | kubectl apply -f -
