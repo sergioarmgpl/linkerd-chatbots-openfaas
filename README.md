@@ -124,9 +124,11 @@ export PATH=$PATH:$HOME/.linkerd2/bin
 ```
 . ~/.profile
 ```
+Check the version of linkerd cli
 ```
 linkerd version
 ```
+Pre-check before linkerd installation, look if there is not another installation
 ```
 linkerd check --pre
 ```
