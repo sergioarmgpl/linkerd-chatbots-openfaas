@@ -121,6 +121,7 @@ Add the following line to ~/.profile
 ```
 export PATH=$PATH:$HOME/.linkerd2/bin
 ```
+Run .profile to load the updated PATH
 ```
 . ~/.profile
 ```
