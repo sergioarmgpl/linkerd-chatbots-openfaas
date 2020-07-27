@@ -6,4 +6,4 @@ functions:
   chatbot:
     lang: python3-flask
     handler: ./chatbot
-    image: hub.cloudsociety.dev/openfaas/chatbot:latest
+    image: czdev/chatbot:latest

@@ -29,21 +29,6 @@ def update_emoji(payload):
     user_id = event.get("user")
     slack_web_client.chat_postMessage(channel=channel_id,text=host+": :face_with_rolling_eyes:")
 
-def palindrome(palabra):
-    palabra_no_espacios = palabra.replace(" ","").upper()
-    palabra = palabra_no_espacios
-    L = len(palabra)
-    T = 0
-    for i in range(0,L):
-       print(palabra[i],"=",palabra[L-1-i])
-       if palabra[i] == palabra[L-1-i]:
-          T = T + 1
-    if T == L:
-       return "Palíndrome"
-    else:
-       return "No Palíndrome"
-
-
 @slack_events_adapter.on("message")
 def message(payload):
     event = payload.get("event", {})
@@ -54,11 +39,10 @@ def message(payload):
     ts = ""
     if text != None and user_id != "UV84PJNSC":
         print("New message: "+text+" user: "+user_id) 
-        if text == "negro":
-            slack_web_client.chat_postMessage(channel=channel_id,text="Va no seas racista :triumph:",thread_ts=ts)
+        if text == "kubeconeu":
+            slack_web_client.chat_postMessage(channel=channel_id,text="Is so cool :triumph:",thread_ts=ts)
         else:
-            slack_web_client.chat_postMessage(channel=channel_id,text=host+": te conteste :smiley:",thread_ts=ts)
-            slack_web_client.chat_postMessage(channel=channel_id,text=palindrome(text),thread_ts=ts)
+            slack_web_client.chat_postMessage(channel=channel_id,text=host+": i dont now that conference :smiley:",thread_ts=ts)
 
 
 if __name__ == "__main__":
