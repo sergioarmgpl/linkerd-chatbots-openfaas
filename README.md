@@ -31,9 +31,9 @@ Chart
 - Readme: https://github.com/openfaas/faas-netes/blob/master/chart/openfaas/README.md
 - Helm readme: https://github.com/openfaas/faas-netes/blob/master/HELM.md
 - Detail: https://github.com/openfaas/faas-netes/blob/master/chart/openfaas/README.md
-Creating OpenFaaS Namespace:
+Creating openfaas and openfaas-fn namespaces used by the default installation:
 ```
-kubectl create ns openfaas 
+kubectl apply -f https://raw.githubusercontent.com/openfaas/faas-netes/master/namespaces.yml
 ```
 Installing nginx-ingress to give public access to openfaas
 ```
@@ -213,8 +213,9 @@ cd faas
 faas template pull https://github.com/openfaas-incubator/python-flask-template
 ```
 ```
-faas new --lang python3-flask chatbot
+faas new --lang python3-flask chatbot #then add your code
 ```
+The final result is located in the chatbot directory of this repository.
 
 ## Create a Slack bot with Slack API
 1. Create a Slack app(https://api.slack.com/apps/new) (if you don't already have one).
