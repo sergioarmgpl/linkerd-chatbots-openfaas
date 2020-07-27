@@ -31,6 +31,7 @@ Chart
 - Readme: https://github.com/openfaas/faas-netes/blob/master/chart/openfaas/README.md
 - Helm readme: https://github.com/openfaas/faas-netes/blob/master/HELM.md
 - Detail: https://github.com/openfaas/faas-netes/blob/master/chart/openfaas/README.md  
+  
 Creating openfaas and openfaas-fn namespaces used by the default installation:  
 ```
 kubectl apply -f https://raw.githubusercontent.com/openfaas/faas-netes/master/namespaces.yml
