@@ -2,7 +2,7 @@ apiVersion: split.smi-spec.io/v1alpha1
 kind: TrafficSplit
 metadata:
   name: function-split
-  namespace: openfaas
+  namespace: openfaas-fn
 spec:
   # The root service that clients use to connect to the destination application.
   service: chatbot-root

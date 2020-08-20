@@ -1,4 +1,5 @@
 import socket
+import requests
 import os
 import logging
 from flask import Flask
@@ -9,8 +10,10 @@ import certifi
 #from onboarding_tutorial import OnboardingTutorial
 
 app = Flask(__name__)
-slack_events_adapter = SlackEventAdapter("ccd1", "/slack/events", app)
-slack_web_client = WebClient(token="xoxb")
+#basic information signing secret
+slack_events_adapter = SlackEventAdapter("3e27", "/slack/events", app)
+#oauth and permissions
+slack_web_client = WebClient(token="xoxb-872466")
 host = socket.gethostname()
 
 
@@ -40,7 +43,8 @@ def message(payload):
     if text != None and user_id != "UV84PJNSC":
         print("New message: "+text+" user: "+user_id) 
         if text == "kubeconeu":
-            slack_web_client.chat_postMessage(channel=channel_id,text="Is so cool :triumph:",thread_ts=ts)
+            slack_web_client.chat_postMessage(channel=channel_id,text=host+": Is so cool :smiley:",thread_ts=ts)
+            requests.get("http://microservice")
         else:
             slack_web_client.chat_postMessage(channel=channel_id,text=host+": i dont now that conference :smiley:",thread_ts=ts)
 
@@ -50,5 +54,5 @@ if __name__ == "__main__":
     logger.setLevel(logging.DEBUG)
     logger.addHandler(logging.StreamHandler())
     ssl_context = ssl_lib.create_default_context(cafile=certifi.where())
-    app.run(host='0.0.0.0',port=3000, debug=True)
+    app.run(host='0.0.0.0',port=5000, debug=True)
 #    app.run(host='0.0.0.0',port=443,ssl_context=('/etc/letsencrypt/live/bot.curzona.net/fullchain.pem', '/etc/letsencrypt/live/bot.curzona.net/privkey.pem'))
